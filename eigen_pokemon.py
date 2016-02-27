@@ -21,15 +21,19 @@ for i, imName in enumerate(filenameList):
 
 model.train(imageList, labelList)
 
-print imageList
-print labelList
-
 # create funtion that takes in unknown image, searches through model
 # for matching known pokemon, determines name from integer, returns name
 newImage = cv2.imread('mystery_pokemon.png',0)
+print 'Mystery pokemon image dimensions: '
+print newImage.shape
+
+
+# take care of mismatched image dimensions by padding/
+
+print 'Database pokemon image dimensions: '
+print imageList[1].shape
 
 # determine integer of unknown pokemon 
 x,y = model.predict(newImage)
-print x
 
 # make list of pokemon names & corresponding integers
