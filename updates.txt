@@ -1,2 +1,2 @@
-pokemon/077.png
-Ponyta
+pokemon/066.png
+Machop

@@ -197,7 +197,7 @@ if __name__ == '__main__':
    faces = numpy.asarray(faces).reshape((len(filenameList),numberRows*numberColumns))
 
    # loop through series of input images and return matches & reconstructions
-   filenames = ['test_pokemon/077.png','test_pokemon/meowth.png'] #'test_pokemon/077.png', 
+   filenames = ['test_pokemon/meowth.png'] #'test_pokemon/077.png', 
    knownFaceThreshold = 1.0
    for filename in filenames:
       print filename
