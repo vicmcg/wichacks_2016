@@ -5,6 +5,15 @@ import scipy.misc
 import os
 #import antigravity
 
+
+"""
+WiCHACKS 2016
+Victoria Scholl
+Victoria McGowen
+Elizabeth Bondi 
+02/28/16
+"""
+
 def create_pokemon_eigenface_model(filenameList, threshold=100.0): 
    imageList = []
    labelList = numpy.arange(len(filenameList))
@@ -20,56 +29,6 @@ def create_pokemon_eigenface_model(filenameList, threshold=100.0):
 
    return imageList, model
 
-def resize(imageList, newImage):
-
-   print 'Database pokemon image dimensions: '
-   imRows = imageList[1].shape[0]
-   print 'rows: ', imRows
-   imColumns = imageList[1].shape[1]
-   print 'columns: ', imColumns
-
-   print 'Mystery pokemon image dimensions: '
-   newRows = newImage.shape[0]
-   print 'rows: ', newRows
-   newColumns = newImage.shape[1]
-   print 'columns: ', newColumns
-
-   if newRows < imRows:
-      r1 = (imRows-newRows)/2
-      if (imRows-newRows)%2 != 0: 
-         r2 = r1 + 1
-      else: 
-         r2 = r1
-      newImage = numpy.pad(newImage, ([r1,r2],[0,0]), 'constant', 
-         constant_values=(255,255))
-
-   elif newRows > imRows:
-      r = (newRows - imRows)/2
-      newImage = newImage[r:r+imRows,:]
-
-   if newColumns < imColumns:
-      r1 = (imColumns-newColumns)/2 
-      if (imColumns-newColumns)%2 != 0: 
-         r2 = r1 + 1
-      else: 
-         r2 = r1
-      newImage = numpy.pad(newImage, ([0,0],[r1,r2]), 'constant', 
-         constant_values=(255,255))
-
-   elif newColumns > imColumns: 
-      r = (newColumns - imColumns)/2
-      newImage = newImage[:,r:r+imRows]
-
-   # take care of mismatched image dimensions by padding/cropping
-   print 'AFTER PADDING: '
-   newRows = newImage.shape[0]
-   print 'rows: ', newRows
-   newColumns = newImage.shape[1]
-   print 'columns: ', newColumns
-   cv2.imshow('after padding', newImage)
-   cv2.waitKey(0)
-
-   return newImage
 
 def square(im): 
 
@@ -106,7 +65,8 @@ if __name__ == '__main__':
    #newImageFilename = 'test_pokemon/eevee.png'
    #newImageFilename = 'test_pokemon/pokemon_2.png'
    #newImageFilename = 'test_pokemon/077.png'
-   newImageFilename = 'test_pokemon/niodoran_big.jpg'
+   #newImageFilename = 'test_pokemon/niodoran_big.jpg'
+   newImageFilename = 'test_pokemon/eevee2.png'
 
    newImage = cv2.imread(newImageFilename,cv2.IMREAD_UNCHANGED)
    print newImage.shape
@@ -124,9 +84,6 @@ if __name__ == '__main__':
 
    x,y = model.predict(newImageResized)
    print 'Index of closest pokemon: ', x
-   cv2.imshow('Input Image', newImageResized)
-   cv2.imshow('Closest Match',cv2.imread(filenameList[x],0))
-   cv2.waitKey(0)
    nameFilename = 'name.txt'
    namesLUT = numpy.loadtxt(nameFilename, dtype='str')
    print namesLUT[x]
@@ -136,6 +93,11 @@ if __name__ == '__main__':
    f.write(filenameList[x]+'\n')
    f.write(namesLUT[x])
    f.close()
+
+   # display input image anc closest match
+   cv2.imshow('Input Image', newImageResized)
+   cv2.imshow('Closest Match: '+ namesLUT[x],cv2.imread(filenameList[x],0))
+   cv2.waitKey(0)
 
 
 
