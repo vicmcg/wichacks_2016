@@ -4,9 +4,9 @@ import numpy
 import scipy.misc 
 #import antigravity
 
-def create_pokemon_eigenface_model(imageFolder='pokemon', threshold=100.0): 
-   filenameList = glob.glob(imageFolder+'/*.png')
+def create_pokemon_eigenface_model(filenameList, threshold=100.0): 
    imageList = []
+   labelList = numpy.arange(len(filenameList))
 
    for i, imName in enumerate(filenameList): 
       imageList.append(cv2.imread(imName,0))
@@ -94,7 +94,8 @@ if __name__ == '__main__':
 
    imageFolder = 'pokemon'
    threshold = 100
-   imageList, model= create_pokemon_eigenface_model(imageFolder, threshold)
+   filenameList = glob.glob(imageFolder+'/*.png')
+   imageList, model= create_pokemon_eigenface_model(filenameList, threshold)
    
    newImageFilename = 'test_pokemon/mystery_pokemon.png'
    newImageFilename = 'test_pokemon/pikachu_big.jpg'
@@ -119,7 +120,10 @@ if __name__ == '__main__':
    print namesLUT[x]
 
    # write out filename and image of matching pokemon 
-   f = open(updates.txt, 'w')
-   
+   f = open('updates.txt', 'w')
+   f.write(filenameList[x]+'\n')
+   f.write(namesLUT[x])
+   f.close()
+
 
 

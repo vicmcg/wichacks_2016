@@ -1,2 +1,2 @@
-pokemon/025.png
-Pikachu
+pokemon/077.png
+Ponyta
