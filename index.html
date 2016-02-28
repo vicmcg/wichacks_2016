@@ -10,9 +10,9 @@
 
 		<!--<link rel="stylesheet" href="video.css" />-->
 
-		<script src="jquery-1.9.1.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="js/h5utils.js"></script>
+		<!--<script src="jquery-1.9.1.min.js"></script>-->
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+		<!--<script src="js/h5utils.js"></script>-->
 		
 	</head>
 
@@ -26,13 +26,13 @@
 			<img src = "seeThrough.png" />
 		</div>
 		
-		<script>
-			
-		</script>
 		
-		<form action="/uploads">
-  			<input type="file" name="pic" accept="image/*">
-  			<input type="submit">
+		<form id  =  "uploadForm"
+     		enctype   =  "multipart/form-data"
+     		action    =  "/api/photo"
+     		method    =  "post" >
+  			<input type="file" name="mysteryPokemon" accept="image/*">
+  			<input type="submit" value="Upload Image" name="submit">
 		</form>
 
 	</body>
