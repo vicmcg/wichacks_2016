@@ -1,17 +1,17 @@
 import cv2
 import glob
 import numpy
-
+import scipy.misc 
+#import antigravity
 
 def create_pokemon_eigenface_model(imageFolder='pokemon', threshold=100.0): 
    filenameList = glob.glob(imageFolder+'/*.png')
    imageList = []
-   labelList = numpy.arange(len(filenameList))
 
    for i, imName in enumerate(filenameList): 
       imageList.append(cv2.imread(imName,0))
    
-   model = cv2.createEigenFaceRecognizer(threshold=50.0)
+   model = cv2.createEigenFaceRecognizer()#threshold)
    model.train(imageList, labelList)
 
    return imageList, model
@@ -67,23 +67,59 @@ def resize(imageList, newImage):
 
    return newImage
 
+def square(im): 
+
+
+   if im.shape[0] > im.shape[1]:
+      r1 = (im.shape[0]-im.shape[1])/2 
+      if (im.shape[0]-im.shape[1])%2 != 0: 
+         r2 = r1 + 1
+      else: 
+         r2 = r1
+      newImage = numpy.pad(im, ([0,0],[r1,r2]), 'constant', 
+         constant_values=(255,255))
+
+   else: 
+      r1 = (im.shape[1]-im.shape[0])/2 
+      if (im.shape[1]-im.shape[0])%2 != 0: 
+         r2 = r1 + 1
+      else: 
+         r2 = r1
+      newImage = numpy.pad(im, ([r1,r2],[0,0]), 'constant', 
+         constant_values=(255,255))  
+
+   return newImage   
 
 if __name__ == '__main__':
 
    imageFolder = 'pokemon'
-   threshold = 10
-   imageList, model = create_pokemon_eigenface_model(imageFolder, threshold)
+   threshold = 100
+   imageList, model= create_pokemon_eigenface_model(imageFolder, threshold)
    
-   newImageFilename = 'mystery_pokemon.png'
-   #newImageFilename = 'pikachu_big.jpg'
+   newImageFilename = 'test_pokemon/mystery_pokemon.png'
+   newImageFilename = 'test_pokemon/pikachu_big.jpg'
+   newImageFilename = 'test_pokemon/eevee.png'
+   newImageFilename = 'test_pokemon/pokemon_2.png'
+   newImageFilename = 'test_pokemon/077.png'
+
    newImage = cv2.imread(newImageFilename,0)
-   newImageResized = resize(imageList, newImage)
+   #newImageResized = resize(imageList, newImage)
+
+   if newImage.shape[0] != newImage.shape[1]: 
+      newImage = square(newImage)
+
+   newImageResized = scipy.misc.imresize(newImage,imageList[1].shape,interp='nearest')
 
    x,y = model.predict(newImageResized)
+   print 'Index of closest pokemon: '
    print x
 
    nameFilename = 'name.txt'
-   namesLUT = open(nameFilename).read()
-   print namesLUT
+   namesLUT = numpy.loadtxt(nameFilename, dtype='str')
+   print namesLUT[x]
+
+   # write out filename and image of matching pokemon 
+   f = open(updates.txt, 'w')
+   
 
 
