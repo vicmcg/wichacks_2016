@@ -8,3 +8,4 @@ if __name__ == '__main__':
 	f.write(filename+'\n')
 	f.write(pokemon)
 	f.close()
+	sys.stdout.flush()
